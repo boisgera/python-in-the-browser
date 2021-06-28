@@ -1,8 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-  </head>
+    <!-- 
+    Exposes 'loadPyodide' that does the heavy lifting when called.
+    -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js">
+    </script>
+    <script defer type="text/javascript">
+    loadPyodide({indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/'}).then(
+        () => {
+            console.log("* loaded! *")
+            let scripts = document.querySelectorAll("script[type='text/python']");
+            for (script of scripts) {
+                console.log("*", script, script.textContent)
+                let src = script.textContent; 
+                pyodide.runPython(src);
+            }
+        }
+      )
+    </script>
+</head>
   <body>
     <p>Hello world!</p>
+    <script type="text/python">
+        print("Hello world from Python")
+    </script>
   </body>
 </html>
